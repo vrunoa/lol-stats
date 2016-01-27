@@ -4,11 +4,15 @@ angular.module('LOLStats', [])
   return {
     getByRegion: function(r) {
       return new Promise(function(res, rej){
-        $http({
+        var req = {
           method: 'POST',
           url: '/champions',
+          headers: {
+            'Content-Type':'application/json'
+          },
           data: {region:r}
-        })
+        }
+        $http(req)
         .then(function(response){
           res(response)
         }, 
