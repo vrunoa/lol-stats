@@ -1,0 +1,11 @@
+body{
+  margin:0px;
+  padding:0px;
+  background:#f7f7f7;
+}
+
+.nav-region{
+  background:#222;
+  padding-right:20px !important;
+  border-bottom:1px solid #ccc;
+}
