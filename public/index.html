@@ -38,6 +38,25 @@
   </form>
   <div class="clearfix"></div>
 </div>
+
+<div class="search text-center">
+<div class="form-group">
+  <label for="user">User</label>
+  <input type="text" class="form-control" id="user" placeholder="user" ng-model="q" ng-change="searchUser()">
+</div>
+</div>
+
+<div class="row">
+  <div class="col-md-2">
+    <div class="user-profile" ng-show="user">
+      <label>Id: {{user.id}} </label><br />
+      <label>Name: {{user.name}} </label><br />
+      <label>Level: {{user.summonerLevel}}</label><br />
+    </div>
+  </div>
+  <div class="col-md-10">
+  </div>
+</div>
   
 <script src="js/controller.js"></script>
 

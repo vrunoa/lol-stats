@@ -17,6 +17,14 @@ angular.module('LOLStats', [])
   }
 }])
 
+.factory('Summoner', ['Api', function(Api){
+  return {
+    byName: function(r, q) {
+      return Api.post('/summoner-by-name', {region:r, q:q})
+    }
+  }
+}])
+
 .factory('Regions', ["Api", function(Api){
   return {
     all: function() {
@@ -39,10 +47,26 @@ angular.module('LOLStats', [])
   }
 }])
 
-.controller('StatsController', ["$scope", "Regions", function($scope, Regions) {
+.controller('StatsController', ["$scope", "Regions", "Summoner", function($scope, Regions, Summoner) {
   $scope.regions = Regions.all();
   $scope.region = {
     region: "NA"
+  }
+  $scope.q 
+  $scope.searchTimeout
+  $scope.user = false
+
+  $scope.searchUser = function() {
+    clearTimeout($scope.searchTimeout)
+    $scope.searchTimeout = setTimeout(function(){
+      Summoner.byName($scope.region.region, $scope.q)
+      .then(function(data){
+        $scope.$apply(function(){
+          if(!data) $scope.user = false
+          $scope.user = data[$scope.q]
+        })
+      })
+    }, 1000)
   }
 
   $scope.changeRegion = function() {

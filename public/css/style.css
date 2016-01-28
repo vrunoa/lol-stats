@@ -23,3 +23,22 @@ body{
 .status-offline{
   color:#f00 !important;
 }
+
+.search{
+  text-align:left;
+  margin-top:30px;
+  width:30%;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.user-profile{
+  padding:12px;
+  color:#ccc !important;
+  font-weight:thin;
+}
+
+.user-profile label{
+  font-weight: normal !important;
+  color: #222 !important;
+}
