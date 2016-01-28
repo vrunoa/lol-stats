@@ -28,6 +28,7 @@
 
 <body ng-controller="StatsController">
 <div class="nav-region">
+  
   <i class="fa fa-cog fa-spin preloader" ng-show="loading"></i>
   <p class="p-region">Region: {{regions[region.region]}} <i class="fa fa-circle" ng-class="regionStatus()"></i></p>
   <form class="navbar-form navbar-right" role="search">
@@ -38,7 +39,15 @@
     </div>
   </form>
   <div class="clearfix"></div>
+  
 </div>
+
+<div class="alert alert-danger" role="alert" ng-show="error">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  <span class="sr-only">Error:</span>
+  {{error}}
+</div>
+
 
 <div class="search text-center">
 <div class="form-group">
@@ -57,13 +66,15 @@
     </div>
   </div>
   <div class="col-md-10">
+    
     <ul class="nav nav-tabs">
-      <li role="presentation" class="active"><a href="#">Summary</a></li>
-      <li role="presentation"><a href="#">Ranked</a></li>
+      <li role="presentation" ng-class="isActiveTab('summary') ? 'active': ''"><a href="#summary" ng-click="changeTab('summary')">Summary</a></li>
+      <li role="presentation" ng-class="isActiveTab('ranked') ? 'active': ''"><a href="#ranked" ng-click="changeTab('ranked')">Ranked</a></li>
     </ul>
-    <div class="tab-summary">
+    
+    <div class="tab-summary" ng-show="isActiveTab('summary')">
       <div class="form-inline form-season">
-        <select ng-model="summary.season" ng-change="changeSeason()" class="form-control">
+        Choose Season&nbsp;<select ng-model="summary.season" ng-change="changeSeason()" class="form-control">
           <option ng-repeat="key in seasons" ng-value="key">{{key}}</option>
         </select>
       </div>
@@ -91,6 +102,39 @@
         </tr>
       </table>
     </div>
+
+    <div class="tab-ranked" ng-show="isActiveTab('ranked')">
+      <div class="form-inline form-season">
+        Choose Season&nbsp;<select ng-model="summary.season" ng-change="changeSeason()" class="form-control">
+          <option ng-repeat="key in seasons" ng-value="key">{{key}}</option>
+        </select>
+      </div>
+      <div class="clearfix"></div>
+      <table class="summary-table table table-striped">
+        <tr>
+          <th>&nbsp;</th>
+          <th>Type</th>
+          <th>Total Neutral Minions Killed</th>
+          <th>Total Minions Killed</th>
+          <th>Total Champion Minions Killed</th>
+          <th>Total Assists</th>
+          <th>Total Turrets Killed</th>
+          <th>Wins</th>
+        </tr>
+        <tr ng-repeat="stat in ranked.playerStatSummaries">
+          <td>{{stat.modifyDate|pretty_date}}</td>
+          <td>{{stat.playerStatSummaryType}}</td>
+          <td>{{stat.aggregatedStats.totalNeutralMinionsKilled|dash}}</td>
+          <td>{{stat.aggregatedStats.totalMinionKills|dash}}</td>
+          <td>{{stat.aggregatedStats.totalChampionKills|dash}}</td>
+          <td>{{stat.aggregatedStats.totalAssists|dash}}</td>
+          <td>{{stat.aggregatedStats.totalTurretsKilled|dash}}</td>
+          <td>{{stat.wins|dash}}</td>
+        </tr>
+      </table>
+    </div>
+
+
   </div>
 </div>
   

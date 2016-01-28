@@ -37,7 +37,12 @@ angular.module('LOLStats', [])
           headers: { 'Content-Type':'application/json' },
           data: data
         }).then(function(response){
-          res(JSON.parse(response.data))
+          try { 
+            var data = JSON.parse(response.data)
+            res(data)
+          }catch(e){
+            rej({error:"Error getting service information..."})
+          }
         }, function(response){
           rej(response.err)
         })
@@ -58,6 +63,16 @@ angular.module('LOLStats', [])
   return {
     get: function(r, sid, s) {
       return Api.post('/summoner-sumary', 
+        {region:r, summoner:sid, season: s}
+      )
+    }
+  }
+}])
+
+.factory("Ranked", ["Api", function(Api) {
+  return {
+    get: function(r, sid, s) {
+      return Api.post('/summoner-ranked', 
         {region:r, summoner:sid, season: s}
       )
     }
@@ -86,31 +101,62 @@ angular.module('LOLStats', [])
   }
 }])
 
-.controller('StatsController', ["$scope", "Regions", "Summoner", "Summary", function($scope, Regions, Summoner, Summary) {
+.factory("Utils", [function(){
+  return {
+    clone: function(object) {
+      return JSON.parse(JSON.stringify(object))
+    },
+    last: function(arr) {
+      if(!arr) return
+      if(!arr.length) return
+      return arr[arr.length-1]
+    }
+  }
+}])
+
+.controller('StatsController', ["$scope", "Regions", "Summoner", "Summary", "Utils", "Ranked", function($scope, Regions, Summoner, Summary, Utils, Ranked) {
   $scope.regions = Regions.all();
   $scope.region = {
     region: "NA"
   }
   $scope.loading = false
+  $scope.error = false
   $scope.q 
   $scope.searchTimeout
   $scope.user = false
   $scope.seasons =["SEASON3", "SEASON2014", "SEASON2015", "SEASON2016"]
   $scope.summary = {
-    season: "SEASON_2016",
+    season: null,
     playerStatSummaries: []
+  }
+  $scope.ranked = Utils.clone($scope.summary)
+
+  $scope.tab = "summary"
+
+  $scope.isActiveTab = function(tab) {
+    return $scope.tab == tab
+  }
+
+  $scope.changeTab = function(tab) {
+    $scope.tab = tab == "summary" ? "summary" : "ranked"
   }
 
   $scope.searchUser = function() {
     clearTimeout($scope.searchTimeout)
     $scope.searchTimeout = setTimeout(function(){
       $scope.loading = true
+      $scope.error = false
       Summoner.byName($scope.region.region, $scope.q)
       .then(function(data){
         $scope.$apply(function(){
           $scope.loading = false
           if(!data) $scope.user = false
           $scope.user = data[$scope.q]
+        })
+      }, function(err) {
+        $scope.$apply(function(){
+          $scope.loading = false
+          $scope.error = "user not found"
         })
       })
     }, 1000)
@@ -130,14 +176,42 @@ angular.module('LOLStats', [])
   }
 
   $scope.changeSeason = function() {
+    $scope.tab == "summary" ? $scope.getSummary() : $scope.getRanked()
+  }
+
+  $scope.getSummary = function() {
     var region = $scope.region.region
     $scope.summary.playerStateSummaries = []
     $scope.loading = true
+    $scope.error = false
     Summary.get(region, $scope.user.id, $scope.summary.season)
     .then(function(data){
       $scope.$apply(function(){
         $scope.summary.playerStatSummaries = data.playerStatSummaries
         $scope.loading = false
+      })
+    }, function(err){
+      $scope.$apply(function(){
+        $scope.loading = false
+        $scope.error = "user summary not available"
+      })
+    })
+  }
+
+  $scope.getRanked = function() {
+    var region = $scope.region.region
+    $scope.ranked.playerStateSummaries = []
+    $scope.loading = true
+    Ranked.get(region, $scope.user.id, $scope.ranked.season)
+    .then(function(data){
+      $scope.$apply(function(){
+        $scope.ranked.playerStatSummaries = data.playerStatSummaries
+        $scope.loading = false
+      })
+    }, function(err){
+      $scope.$apply(function(){
+        $scope.loading = false
+        $scope.error = "user ranked not available"
       })
     })
   }
