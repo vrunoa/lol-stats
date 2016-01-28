@@ -28,6 +28,7 @@
 
 <body ng-controller="StatsController">
 <div class="nav-region">
+  <i class="fa fa-cog fa-spin preloader" ng-show="loading"></i>
   <p class="p-region">Region: {{regions[region.region]}} <i class="fa fa-circle" ng-class="regionStatus()"></i></p>
   <form class="navbar-form navbar-right" role="search">
     <div class="form-group">
@@ -46,15 +47,50 @@
 </div>
 </div>
 
-<div class="row">
+<div class="row" ng-show="user">
   <div class="col-md-2">
-    <div class="user-profile" ng-show="user">
+    <div class="user-profile">
+      <img ng-src="{{user.profileIconId | icon_url}}" class="profile-icon" />
       <label>Id: {{user.id}} </label><br />
       <label>Name: {{user.name}} </label><br />
       <label>Level: {{user.summonerLevel}}</label><br />
     </div>
   </div>
   <div class="col-md-10">
+    <ul class="nav nav-tabs">
+      <li role="presentation" class="active"><a href="#">Summary</a></li>
+      <li role="presentation"><a href="#">Ranked</a></li>
+    </ul>
+    <div class="tab-summary">
+      <div class="form-inline form-season">
+        <select ng-model="summary.season" ng-change="changeSeason()" class="form-control">
+          <option ng-repeat="key in seasons" ng-value="key">{{key}}</option>
+        </select>
+      </div>
+      <div class="clearfix"></div>
+      <table class="summary-table table table-striped">
+        <tr>
+          <th>&nbsp;</th>
+          <th>Type</th>
+          <th>Total Neutral Minions Killed</th>
+          <th>Total Minions Killed</th>
+          <th>Total Champion Minions Killed</th>
+          <th>Total Assists</th>
+          <th>Total Turrets Killed</th>
+          <th>Wins</th>
+        </tr>
+        <tr ng-repeat="stat in summary.playerStatSummaries">
+          <td>{{stat.modifyDate|pretty_date}}</td>
+          <td>{{stat.playerStatSummaryType}}</td>
+          <td>{{stat.aggregatedStats.totalNeutralMinionsKilled|dash}}</td>
+          <td>{{stat.aggregatedStats.totalMinionKills|dash}}</td>
+          <td>{{stat.aggregatedStats.totalChampionKills|dash}}</td>
+          <td>{{stat.aggregatedStats.totalAssists|dash}}</td>
+          <td>{{stat.aggregatedStats.totalTurretsKilled|dash}}</td>
+          <td>{{stat.wins|dash}}</td>
+        </tr>
+      </table>
+    </div>
   </div>
 </div>
   

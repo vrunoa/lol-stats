@@ -34,11 +34,33 @@ body{
 
 .user-profile{
   padding:12px;
-  color:#ccc !important;
-  font-weight:thin;
 }
 
 .user-profile label{
   font-weight: normal !important;
   color: #222 !important;
+}
+
+.tab-summary{
+  margin:8px;
+}
+
+.form-season{
+  float:right;
+}
+
+.summary-table{
+  margin-top:8px;
+  border-left:1px solid #ccc;
+  border-right:1px solid #ccc;
+  border-bottom:1px solid #ccc;
+}
+
+.preloader{
+  font-size:2em;
+  position:absolute;
+  color:#fff;
+  top:10px;
+  left:50%;
+
 }
