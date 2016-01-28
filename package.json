@@ -28,6 +28,7 @@
     "body-parser": "^1.14.2",
     "bootstrap": "^3.3.6",
     "font-awesome": "^4.5.0",
+    "html-entities": "^1.2.0",
     "jquery": "^2.2.0",
     "mocha": "^2.4.2",
     "multer": "^1.1.0",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "mocha": "^2.4.3",
-    "selenium-webdriver": "^2.48.2"
+    "selenium-webdriver": "^2.48.2",
+    "supertest": "^1.1.0"
   }
 }
