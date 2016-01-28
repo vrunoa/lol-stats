@@ -8,6 +8,7 @@
   <meta name="author" content="vruno">
   
   <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/style.css">
 
   <!-- import jquery -->
@@ -27,9 +28,10 @@
 
 <body ng-controller="StatsController">
 <div class="nav-region">
+  <p class="p-region">Region: {{regions[region.region]}} <i class="fa fa-circle" ng-class="regionStatus()"></i></p>
   <form class="navbar-form navbar-right" role="search">
     <div class="form-group">
-      <select ng-model="region" ng-change="changeRegion()" class="form-control">
+      <select ng-model="region.region" ng-change="changeRegion()" class="form-control">
         <option ng-repeat="(key, r) in regions" ng-value="key">{{r}}</option>
       </select>
     </div>

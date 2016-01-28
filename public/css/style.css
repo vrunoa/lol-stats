@@ -9,3 +9,17 @@ body{
   padding-right:20px !important;
   border-bottom:1px solid #ccc;
 }
+
+.p-region{
+  padding:12px;
+  float:left;
+  color:#fff;
+}
+
+.status-online{
+  color:#0f0 !important;
+}
+
+.status-offline{
+  color:#f00 !important;
+}

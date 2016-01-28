@@ -1,47 +1,65 @@
 angular.module('LOLStats', [])
 
-.factory('Champions', ["$http", function($http){
+.factory('Api', ["$http", function($http){
   return {
-    getByRegion: function(r) {
+    post: function(url, data) {
       return new Promise(function(res, rej){
-        var req = {
-          method: 'POST',
-          url: '/champions',
-          headers: {
-            'Content-Type':'application/json'
-          },
-          data: {region:r}
-        }
-        $http(req)
-        .then(function(response){
-          res(response)
-        }, 
-        function(response){
-          rej(response)
-        })        
+        $http({ method: 'POST', url: url,
+          headers: { 'Content-Type':'application/json' },
+          data: data
+        }).then(function(response){
+          res(JSON.parse(response.data))
+        }, function(response){
+          rej(response.err)
+        })
       })
     }
   }
 }])
 
-.controller('StatsController', ["$scope", "Champions", function($scope, Champions) {
-  $scope.regions = {
-    "BR": "Brasil", 
-    "EUNE" : "Europe Nordic & East", 
-    "EUW" :"Europe West", 
-    "LAN":"Latin North America", 
-    "LAS":"Latin South America", 
-    "NA":"North America", 
-    "OCE":"OCEANIA", 
-    "PBE": "Korea",
-    "RU":"Russia", 
-    "TR":"Turkey"
+.factory('Regions', ["Api", function(Api){
+  return {
+    all: function() {
+      return {
+        "BR": "Brasil", 
+        "EUNE" : "Europe Nordic & East", 
+        "EUW" :"Europe West", 
+        "LAN":"Latin North America", 
+        "LAS":"Latin South America", 
+        "NA":"North America", 
+        "OCE":"OCEANIA", 
+        "PBE": "Korea",
+        "RU":"Russia", 
+        "TR":"Turkey"
+      }
+    },
+    getStatus: function(r) {
+      return Api.post('/status', {region:r})
+    }
   }
-  $scope.region = document.location.pathname.replace("/","")
+}])
+
+.controller('StatsController', ["$scope", "Regions", function($scope, Regions) {
+  $scope.regions = Regions.all();
+  $scope.region = {
+    region: "NA"
+  }
+
   $scope.changeRegion = function() {
-    Champions.getByRegion($scope.region)
-    .then(function(res){
-      console.log(res)
+    var region = $scope.region.region
+    $scope.region.status = "offline"
+    Regions.getStatus(region)
+    .then(function(data){
+      $scope.$apply(function(){
+        $scope.region.status = data.services[0].status
+      })
     })
   }
+
+  $scope.regionStatus = function() {
+    var region = $scope.region
+    return region.status == "online" ? "status-online" : "status-offline"
+  }
+
+  $scope.changeRegion($scope.region.region)
 }])
