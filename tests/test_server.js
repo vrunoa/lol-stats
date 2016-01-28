@@ -25,7 +25,7 @@ describe("Test server routes", () => {
     .expect(200)
     .end( (err, res) => {
       if(err) throw err
-      let data = JSON.parse(res.body)
+      let data = res.body
       if(data.slug != "na") 
         throw new Error("got wrong status:, "+res.body)
     
@@ -38,7 +38,7 @@ describe("Test server routes", () => {
     .expect(200)
     .end( (err, res) => {
       if(err) throw err
-      let data = JSON.parse(res.body)
+      let data = res.body
       if(data.slug != "br") 
         throw new Error("got wrong status:, "+res.body)
     
@@ -51,7 +51,7 @@ describe("Test server routes", () => {
     .expect(200)
     .end( (err, res) => {
       if(err) throw err
-      let data = JSON.parse(res.body)
+      let data = res.body
       if(data.slug != "eune") 
         throw new Error("got wrong status:, "+res.body)
 
@@ -64,7 +64,7 @@ describe("Test server routes", () => {
     .expect(200)
     .end( (err, res) => {
       if(err) throw err
-      let data = JSON.parse(res.body)
+      let data = res.body
       if(data.slug != "euw") 
         throw new Error("got wrong status:, "+res.body)
 
@@ -77,7 +77,7 @@ describe("Test server routes", () => {
     .expect(200)
     .end( (err, res) => {
       if(err) throw err
-      let data = JSON.parse(res.body)
+      let data = res.body
       if(data.slug != "lan") 
         throw new Error("got wrong status:, "+res.body)
 
@@ -90,7 +90,7 @@ describe("Test server routes", () => {
     .expect(200)
     .end( (err, res) => {
       if(err) throw err
-      let data = JSON.parse(res.body)
+      let data = res.body
       if(data.slug != "las") 
         throw new Error("got wrong status:, "+res.body)
 
@@ -103,7 +103,7 @@ describe("Test server routes", () => {
     .expect(200)
     .end( (err, res) => {
       if(err) throw err
-      let data = JSON.parse(res.body)
+      let data = res.body
       if(data.slug != "oce") 
         throw new Error("got wrong status:, "+res.body)
 
@@ -116,7 +116,7 @@ describe("Test server routes", () => {
     .expect(200)
     .end( (err, res) => {
       if(err) throw err
-      let data = JSON.parse(res.body)
+      let data = res.body
       if(data.slug != "pbe") 
         throw new Error("got wrong status:, "+res.body)
 
@@ -129,7 +129,7 @@ describe("Test server routes", () => {
     .expect(200)
     .end( (err, res) => {
       if(err) throw err
-      let data = JSON.parse(res.body)
+      let data = res.body
       if(data.slug != "ru") 
         throw new Error("got wrong status:, "+res.body)
 
@@ -142,7 +142,7 @@ describe("Test server routes", () => {
     .expect(200)
     .end( (err, res) => {
       if(err) throw err
-      let data = JSON.parse(res.body)
+      let data = res.body
       if(data.slug != "tr") 
         throw new Error("got wrong status:, "+res.body)
       
@@ -223,6 +223,5 @@ describe("Test server routes", () => {
     .set('Accept', 'application/json')
     .expect(404, done)
   })
-
 
 })

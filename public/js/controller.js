@@ -38,7 +38,7 @@ angular.module('LOLStats', [])
           data: data
         }).then(function(response){
           try { 
-            var data = JSON.parse(response.data)
+            var data = response.data
             res(data)
           }catch(e){
             rej({error:"Error getting service information..."})
