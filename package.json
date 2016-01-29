@@ -8,7 +8,8 @@
     "build": "./node_modules/babel-cli/bin/babel.js lib -d dist",
     "prepublish": "npm run build",
     "start": "./bin/server",
-    "prestart": "npm run build"
+    "prestart": "npm run build",
+    "install": "mkdir -p ./data/db/"
   },
   "repository": {
     "type": "git",

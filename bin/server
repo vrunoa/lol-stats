@@ -1,7 +1,9 @@
 #!/usr/bin/env node
+var child_process = require("child_process")
 var server = require('../dist/index.js').default
 var port = process.env.PORT || "5000"
 var logger = require('semafor')()
+var mongo = child_process.spawn("mongod", ["--dbpath", "./data/db"])
 server().listen(port, function(err) {
   if(err) logger.fail(err) 
   else logger.ok("Server running")
