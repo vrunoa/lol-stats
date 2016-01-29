@@ -4,7 +4,7 @@
   "description": "",
   "main": "./bin/server",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha tests/test_lazy.js --compilers js:babel-core/register -t 0",
+    "test": "./node_modules/mocha/bin/mocha tests/*.js --compilers js:babel-core/register -t 0",
     "build": "./node_modules/babel-cli/bin/babel.js lib -d dist",
     "prepublish": "npm run build",
     "start": "./bin/server",
