@@ -50,36 +50,37 @@
 
 
 <div class="search text-center">
-<div class="form-group">
+<div class="form-group user-search-form">
   <label for="user">User</label>
   <input type="text" class="form-control" id="user" placeholder="user" ng-model="q" ng-change="searchUser()">
 </div>
 </div>
 
-<div class="row user-conatiner" ng-show="user">
+<div class="row" id="user-container" ng-show="user">
   <div class="col-md-2">
     <div class="user-profile">
       <img ng-src="{{user.profileIconId | icon_url}}" class="profile-icon" />
-      <label>Id: {{user.id}} </label><br />
-      <label>Name: {{user.name}} </label><br />
-      <label>Level: {{user.summonerLevel}}</label><br />
+      <label id="user-profile-id">Id: {{user.id}} </label><br />
+      <label id="user-profile-name">Name: {{user.name}} </label><br />
+      <label id="user-profile-level">Level: {{user.summonerLevel}}</label><br />
     </div>
   </div>
+  
   <div class="col-md-10">
     
     <ul class="nav nav-tabs">
-      <li role="presentation" ng-class="isActiveTab('summary') ? 'active': ''"><a href="#summary" ng-click="changeTab('summary')">Summary</a></li>
-      <li role="presentation" ng-class="isActiveTab('ranked') ? 'active': ''"><a href="#ranked" ng-click="changeTab('ranked')">Ranked</a></li>
+      <li role="presentation" id="summary-tab-link" ng-class="isActiveTab('summary') ? 'active': ''"><a href="#summary" ng-click="changeTab('summary')">Summary</a></li>
+      <li role="presentation" id="ranked-tab-link" ng-class="isActiveTab('ranked') ? 'active': ''"><a href="#ranked" ng-click="changeTab('ranked')">Ranked</a></li>
     </ul>
     
     <div class="tab-summary" ng-show="isActiveTab('summary')">
       <div class="form-inline form-season">
-        Choose Season&nbsp;<select ng-model="summary.season" ng-change="changeSeason()" class="form-control">
+        Choose Season&nbsp;<select ng-model="summary.season" ng-change="changeSeason()" id="select-season-summary" class="form-control">
           <option ng-repeat="key in seasons" ng-value="key">{{key}}</option>
         </select>
       </div>
       <div class="clearfix"></div>
-      <table class="summary-table table table-striped">
+      <table class="summary-table table table-striped" id="summary-table">
         <tr>
           <th>&nbsp;</th>
           <th>Type</th>
@@ -90,7 +91,7 @@
           <th>Total Turrets Killed</th>
           <th>Wins</th>
         </tr>
-        <tr ng-repeat="stat in summary.playerStatSummaries">
+        <tr ng-repeat="stat in summary.playerStatSummaries" class="summary-row">
           <td>{{stat.modifyDate|pretty_date}}</td>
           <td>{{stat.playerStatSummaryType}}</td>
           <td>{{stat.aggregatedStats.totalNeutralMinionsKilled|dash}}</td>

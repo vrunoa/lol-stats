@@ -146,6 +146,7 @@ angular.module('LOLStats', [])
     $scope.searchTimeout = setTimeout(function(){
       $scope.loading = true
       $scope.error = false
+      $scope.user = false
       Summoner.byName($scope.region.region, $scope.q)
       .then(function(data){
         $scope.$apply(function(){
@@ -159,7 +160,7 @@ angular.module('LOLStats', [])
           $scope.error = "user not found"
         })
       })
-    }, 1000)
+    }, 500)
   }
 
   $scope.changeRegion = function() {
